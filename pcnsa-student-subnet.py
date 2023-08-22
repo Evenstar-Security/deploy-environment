@@ -19,7 +19,7 @@ ec2_client = session.client('ec2')
 ec2_client.run_instances(
     LaunchTemplate={
         'LaunchTemplateName': 'PCNSA-Student-FW',
-        'Version': '2'
+        'Version': '3'
     },
     MinCount = 1,
     MaxCount = 1
