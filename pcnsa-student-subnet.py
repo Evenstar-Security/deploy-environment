@@ -21,5 +21,7 @@ ec2_client.run_instances(
         'LaunchTemplateId': 'lt-01c7650f1ba7fc6d1',
         'LaunchTemplateName': 'PCNSA-Student-FW',
         'Version': '1'
-    }
+    },
+    MinCount = 1,
+    MaxCount = 1
 )
