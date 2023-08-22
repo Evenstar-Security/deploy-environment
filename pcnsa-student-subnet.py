@@ -7,3 +7,5 @@ session = boto3.Session(
     aws_access_key_id=keys[0],
     aws_secret_access_key=keys[1],
 )
+
+print(keys)
