@@ -1,7 +1,7 @@
 import boto3
 import sys
 
-instance_id = sys.argv[1]
+#instance_id = sys.argv[1]
 
 with open("../keys/aws_cli.txt","r") as f:
     keys_str = f.read()
@@ -16,11 +16,10 @@ session = boto3.Session(
 
 ec2_client = session.client('ec2')
 
-ec2_client.start_instances(
-    InstanceIds=[
-        instance_id,
-    ],
-    DryRun=True
+ec2_client.run_instances(
+    LaunchTemplate={
+        'LaunchTemplateId': 'lt-01c7650f1ba7fc6d1',
+        'LaunchTemplateName': 'PCNSA-Student-FW',
+        'Version': '1'
+    }
 )
-
-print(keys)
