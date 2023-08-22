@@ -16,7 +16,7 @@ session = boto3.Session(
 
 ec2_client = session.client('ec2')
 
-ec2_client.run_instances(
+response = ec2_client.run_instances(
     LaunchTemplate={
         'LaunchTemplateName': 'PCNSA-Student-FW',
         'Version': '3'
@@ -24,3 +24,5 @@ ec2_client.run_instances(
     MinCount = 1,
     MaxCount = 1
 )
+
+print(response)
