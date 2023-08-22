@@ -18,7 +18,6 @@ ec2_client = session.client('ec2')
 
 ec2_client.run_instances(
     LaunchTemplate={
-        'LaunchTemplateId': 'lt-01c7650f1ba7fc6d1',
         'LaunchTemplateName': 'PCNSA-Student-FW',
         'Version': '1'
     },
