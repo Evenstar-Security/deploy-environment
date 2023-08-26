@@ -2,7 +2,7 @@ import boto3
 import json
 from time import sleep
 
-student_num = 4
+student_num = 5
 
 with open("../keys/aws_cli.txt","r") as f:
     keys_str = f.read()
@@ -61,6 +61,7 @@ while con:
             InstanceId=instance_response['Instances'][0]['InstanceId'],
             NetworkInterfaceId=interface_response['NetworkInterface']['NetworkInterfaceId']
         )
+        con = False
     except:
         print("Not running yet")
         sleep(10)
