@@ -20,8 +20,7 @@ session = boto3.Session(
 
 ec2_client = session.client('ec2')
 
-
-response = ec2_client.run_instances(
+instance_response = ec2_client.run_instances(
     LaunchTemplate={
         'LaunchTemplateName': sysinfo['template'],
         'Version': '3'
@@ -41,9 +40,6 @@ response = ec2_client.run_instances(
     ]
 )
 
-print(response)
-
-
 interface_response = ec2_client.create_network_interface(
     Description='Student '+str(student_num)+' Internet Interface',
     DryRun=False,
@@ -55,7 +51,14 @@ interface_response = ec2_client.create_network_interface(
     EnablePrimaryIpv6=False
 )
 
-response = client.modify_network_interface_attribute(
+response = ec2_client.attach_network_interface(
+    DeviceIndex=1,
+    DryRun=False,
+    InstanceId=instance_response['Intances'][0]['InstanceId'],
+    NetworkInterfaceId=interface_response['NetworkInterface']['NetworkInterfaceId']
+)
+
+modify_response = ec2_client.modify_network_interface_attribute(
     #Attachment={
         #'AttachmentId': 'string',
         #'DeleteOnTermination': True|False
@@ -65,6 +68,3 @@ response = client.modify_network_interface_attribute(
         'Value': False
     }
 )
-
-print(response)
-print(type(response))
