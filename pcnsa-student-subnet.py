@@ -1,7 +1,7 @@
 import boto3
 import json
 
-student_num = 2
+student_num = 3
 
 with open("../keys/aws_cli.txt","r") as f:
     keys_str = f.read()
@@ -54,7 +54,7 @@ interface_response = ec2_client.create_network_interface(
 response = ec2_client.attach_network_interface(
     DeviceIndex=1,
     DryRun=False,
-    InstanceId=instance_response['Intances'][0]['InstanceId'],
+    InstanceId=instance_response['Instances'][0]['InstanceId'],
     NetworkInterfaceId=interface_response['NetworkInterface']['NetworkInterfaceId']
 )
 
