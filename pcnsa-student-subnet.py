@@ -34,7 +34,7 @@ response = ec2_client.run_instances(
             'PrivateIpAddresses': [
                 {
                     'Primary': True,
-                    'PrivateIpAddress': sysinfo['subnet']+str(student_num+2)
+                    'PrivateIpAddress': sysinfo['subnet']+str(student_num+3)
                 }
             ]
         }
@@ -50,7 +50,7 @@ interface_response = ec2_client.create_network_interface(
     Groups=[
         sysinfo["group"]
     ],
-    PrivateIpAddress=sysinfo['subnet']+str(student_num+18),
+    PrivateIpAddress=sysinfo['subnet']+str(student_num+19),
     SubnetId=sysinfo['subnet_id'],
     EnablePrimaryIpv6=False
 )
