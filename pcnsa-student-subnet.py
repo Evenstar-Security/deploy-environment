@@ -50,7 +50,7 @@ response = client.modify_network_interface_attribute(
         #'AttachmentId': 'string',
         #'DeleteOnTermination': True|False
     #},
-    NetworkInterfaceId=interface_response['NetworkInterface']['NetworkInterfaceId']
+    NetworkInterfaceId=interface_response['NetworkInterface']['NetworkInterfaceId'],
     SourceDestCheck={
         'Value': False
     }
