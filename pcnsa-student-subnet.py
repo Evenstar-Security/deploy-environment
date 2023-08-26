@@ -20,7 +20,7 @@ session = boto3.Session(
 
 ec2_client = session.client('ec2')
 
-'''
+
 response = ec2_client.run_instances(
     LaunchTemplate={
         'LaunchTemplateName': sysinfo['template'],
@@ -31,10 +31,10 @@ response = ec2_client.run_instances(
     PrivateIpAddress=sysinfo['subnet']+str(student_num+2)
 )
 
-print(response)'''
+print(response)
 
 
-response = ec2_client.create_network_interface(
+interface_response = ec2_client.create_network_interface(
     Description='Student '+str(student_num)+' Internet Interface',
     DryRun=False,
     Groups=[
@@ -43,6 +43,17 @@ response = ec2_client.create_network_interface(
     PrivateIpAddress=sysinfo['subnet']+str(student_num+18),
     SubnetId=sysinfo['subnet_id'],
     EnablePrimaryIpv6=False
+)
+
+response = client.modify_network_interface_attribute(
+    #Attachment={
+        #'AttachmentId': 'string',
+        #'DeleteOnTermination': True|False
+    #},
+    NetworkInterfaceId=interface_response['NetworkInterface']['NetworkInterfaceId']
+    SourceDestCheck={
+        'Value': False
+    }
 )
 
 print(response)
