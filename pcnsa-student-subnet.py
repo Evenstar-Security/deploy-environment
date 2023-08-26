@@ -29,8 +29,9 @@ response = ec2_client.run_instances(
     MinCount = 1,
     MaxCount = 1,
     NetworkInterfaces=[
-        'DeviceIndex': 0,
-        {'PrivateIpAddresses': [
+        {
+            'DeviceIndex': 0,
+            'PrivateIpAddresses': [
                 {
                     'Primary': True,
                     'PrivateIpAddress': sysinfo['subnet']+str(student_num+2)
