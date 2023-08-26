@@ -1,7 +1,7 @@
 import boto3
 import json
 
-student_num = 1
+student_num = 2
 
 with open("../keys/aws_cli.txt","r") as f:
     keys_str = f.read()
