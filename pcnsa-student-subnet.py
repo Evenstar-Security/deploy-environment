@@ -46,3 +46,4 @@ response = ec2_client.create_network_interface(
 )
 
 print(response)
+print(type(response))
