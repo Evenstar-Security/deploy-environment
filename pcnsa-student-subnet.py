@@ -41,6 +41,8 @@ instance_response = ec2_client.run_instances(
     ]
 )
 
+print("Instance created with ID "+instance_response['Instances'][0]['InstanceId'])
+
 interface_response = ec2_client.create_network_interface(
     Description='Student '+str(student_num)+' Internet Interface',
     DryRun=False,
@@ -51,6 +53,8 @@ interface_response = ec2_client.create_network_interface(
     SubnetId=sysinfo['subnet_id'],
     EnablePrimaryIpv6=False
 )
+
+print("Interface created with ID "+interface_response['NetworkInterface']['NetworkInterfaceId'])
 
 con = True
 while con:
@@ -66,6 +70,8 @@ while con:
         print("Not running yet")
         sleep(10)
 
+print("Interface attached to instance")
+
 modify_response = ec2_client.modify_network_interface_attribute(
     #Attachment={
         #'AttachmentId': 'string',
@@ -76,3 +82,5 @@ modify_response = ec2_client.modify_network_interface_attribute(
         'Value': False
     }
 )
+
+print("Source/destination check removed")
