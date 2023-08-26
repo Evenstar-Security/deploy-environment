@@ -28,7 +28,15 @@ response = ec2_client.run_instances(
     },
     MinCount = 1,
     MaxCount = 1,
-    PrivateIpAddress=sysinfo['subnet']+str(student_num+2)
+    NetworkInterfaces=[
+        {'PrivateIpAddresses': [
+                {
+                    'Primary': True,
+                    'PrivateIpAddress': sysinfo['subnet']+str(student_num+2)
+                }
+            ]
+        }
+    ]
 )
 
 print(response)
