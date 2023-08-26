@@ -42,7 +42,6 @@ response = ec2_client.create_network_interface(
     ],
     PrivateIpAddress=sysinfo['subnet']+str(student_num+18),
     SubnetId=sysinfo['subnet_id'],
-    SourceDestCheck= False,
     EnablePrimaryIpv6=False
 )
 
