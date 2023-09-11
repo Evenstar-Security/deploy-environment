@@ -10,7 +10,7 @@ with open("../keys/aws_cli.txt","r") as f:
 with open("../sysinfo/studentfw.txt","r") as f:
     sysinfo = json.load(f)
 
-with open("../sysinfo/subnets.json","r")
+#with open("../sysinfo/subnets.json","r")
 
 keys = keys_str.split("\n")
 
