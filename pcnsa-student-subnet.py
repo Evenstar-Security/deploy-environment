@@ -10,6 +10,7 @@ with open("../keys/aws_cli.txt","r") as f:
 with open("../sysinfo/studentfw.txt","r") as f:
     sysinfo = json.load(f)
 
+with open("../sysinfo/subnets.json","r")
 
 keys = keys_str.split("\n")
 
@@ -34,7 +35,7 @@ instance_response = ec2_client.run_instances(
             'PrivateIpAddresses': [
                 {
                     'Primary': True,
-                    'PrivateIpAddress': sysinfo['subnet']+str(student_num+3)
+                    'PrivateIpAddress': sysinfo['ext_subnet']+str(student_num+3)
                 }
             ]
         }
@@ -43,44 +44,45 @@ instance_response = ec2_client.run_instances(
 
 print("Instance created with ID "+instance_response['Instances'][0]['InstanceId'])
 
-interface_response = ec2_client.create_network_interface(
-    Description='Student '+str(student_num)+' Internet Interface',
-    DryRun=False,
-    Groups=[
-        sysinfo["group"]
-    ],
-    PrivateIpAddress=sysinfo['subnet']+str(student_num+19),
-    SubnetId=sysinfo['subnet_id'],
-    EnablePrimaryIpv6=False
-)
+def data_interface(subnet, subnet_id):
+    interface_response = ec2_client.create_network_interface(
+        Description='Student '+str(student_num)+' Internet Interface',
+        DryRun=False,
+        Groups=[
+            sysinfo["group"]
+        ],
+        PrivateIpAddress=sysinfo['ext_subnet']+str(student_num+19),
+        SubnetId=subnet_id,
+        EnablePrimaryIpv6=False
+    )
 
-print("Interface created with ID "+interface_response['NetworkInterface']['NetworkInterfaceId'])
+    print("Interface created with ID "+interface_response['NetworkInterface']['NetworkInterfaceId'])
 
-con = True
-while con:
-    try:
-        attach_response = ec2_client.attach_network_interface(
-            DeviceIndex=1,
-            DryRun=False,
-            InstanceId=instance_response['Instances'][0]['InstanceId'],
-            NetworkInterfaceId=interface_response['NetworkInterface']['NetworkInterfaceId']
-        )
-        con = False
-    except:
-        print("Not running yet")
-        sleep(10)
+    con = True
+    while con:
+        try:
+            attach_response = ec2_client.attach_network_interface(
+                DeviceIndex=1,
+                DryRun=False,
+                InstanceId=instance_response['Instances'][0]['InstanceId'],
+                NetworkInterfaceId=interface_response['NetworkInterface']['NetworkInterfaceId']
+            )
+            con = False
+        except:
+            print("Not running yet")
+            sleep(10)
 
-print("Interface attached to instance")
+    print("Interface attached to instance")
 
-modify_response = ec2_client.modify_network_interface_attribute(
-    #Attachment={
-        #'AttachmentId': 'string',
-        #'DeleteOnTermination': True|False
-    #},
-    NetworkInterfaceId=interface_response['NetworkInterface']['NetworkInterfaceId'],
-    SourceDestCheck={
-        'Value': False
-    }
-)
+    modify_response = ec2_client.modify_network_interface_attribute(
+        Attachment={
+            'AttachmentId': attach_response['AttachmentId'],
+            'DeleteOnTermination': True
+        },
+        NetworkInterfaceId=interface_response['NetworkInterface']['NetworkInterfaceId'],
+        SourceDestCheck={
+            'Value': False
+        }
+    )
 
-print("Source/destination check removed")
+    print("Source/destination check removed and delete on termination enabled")
