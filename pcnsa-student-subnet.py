@@ -74,7 +74,7 @@ def build_firewall(student_num):
             print("Not running yet")
             sleep(10)
 
-    print("Interface attached to instance")
+    print("External data interface attached to instance")
 
     modify_response = ec2_client.modify_network_interface_attribute(
         #Attachment={
@@ -87,7 +87,7 @@ def build_firewall(student_num):
         }
     )
 
-    print("Source/destination check removed and delete on termination enabled")
+    print("Source/destination check removed") #and delete on termination enabled")
 
     #Create and attach the internal interface
     interface_response = ec2_client.create_network_interface(
@@ -103,21 +103,15 @@ def build_firewall(student_num):
 
     print("Interface created with ID "+interface_response['NetworkInterface']['NetworkInterfaceId'])
 
-    con = True
-    while con:
-        try:
-            attach_response = ec2_client.attach_network_interface(
-                DeviceIndex=2,
-                DryRun=False,
-                InstanceId=instance_response['Instances'][0]['InstanceId'],
-                NetworkInterfaceId=interface_response['NetworkInterface']['NetworkInterfaceId']
-            )
-            con = False
-        except:
-            print("Not running yet")
-            sleep(10)
+    
+    attach_response = ec2_client.attach_network_interface(
+        DeviceIndex=2,
+        DryRun=False,
+        InstanceId=instance_response['Instances'][0]['InstanceId'],
+        NetworkInterfaceId=interface_response['NetworkInterface']['NetworkInterfaceId']
+    )
 
-    print("Interface attached to instance")
+    print("Internal data interface attached to instance")
 
     modify_response = ec2_client.modify_network_interface_attribute(
         #Attachment={
@@ -130,9 +124,9 @@ def build_firewall(student_num):
         }
     )
 
-    print("Source/destination check removed and delete on termination enabled")
+    print("Source/destination check removed") #and delete on termination enabled")
 
 
-my_student_num = 6
+my_student_num = 4
 
 build_firewall(my_student_num)
