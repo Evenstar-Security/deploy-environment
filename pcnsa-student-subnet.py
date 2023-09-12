@@ -144,8 +144,32 @@ def change_password(student_num):
         print("Errors",_stderr.read().decode())
     _stdin.close()
 
+def build_windows(student_num):
+    ec2_client = session.client('ec2')
+    instance_response = ec2_client.run_instances(
+        LaunchTemplate={
+            'LaunchTemplateName': sysinfo['template'],
+            'Version': '4'
+            },
+        MinCount = 1,
+        MaxCount = 1,
+        NetworkInterfaces=[
+            {
+                'DeviceIndex': 0,
+                'PrivateIpAddresses': [
+                    {
+                        'Primary': True,
+                        'PrivateIpAddress': sysinfo['int_subnet']+str((student_num-1)*16+5)
+                    }
+                ]
+            }
+        ]
+    )
+
 
 my_student_num = 1
 
-#build_firewall(my_student_num)
-change_password(my_student_num)
+#change_password(my_student_num)
+
+for i in range(2,17):
+    build_firewall(i)
