@@ -140,8 +140,9 @@ def change_password(student_num):
     commands = ["configure","set mgt-config users admin password",fw_pw,fw_pw,"commit"]
     for command in commands:
         _stdin, _stdout,_stderr = c.exec_command(command)
-        print(_stdout.read().decode())
-        _stdin.close()
+        print("Output",_stdout.read().decode())
+        print("Errors",_stderr.read().decode())
+    _stdin.close()
 
 
 my_student_num = 1
