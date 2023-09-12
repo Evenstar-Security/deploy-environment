@@ -1,5 +1,6 @@
 import boto3
 import json
+import paramiko
 from time import sleep
 
 
@@ -11,6 +12,9 @@ with open("../sysinfo/studentfw.txt","r") as f:
 
 with open("../sysinfo/subnets.json","r") as f:
     student_subnets = json.load(f)
+
+with open("../keys/261classpw.txt") as f:
+    fw_pw = f.read()
 
 
 keys = keys_str.split("\n")
@@ -126,7 +130,21 @@ def build_firewall(student_num):
 
     print("Source/destination check removed") #and delete on termination enabled")
 
+def change_password(student_num):
+    k = paramiko.RSAKey.from_private_key_file("../keys/student-subnet-ssh.pem")
+    c = paramiko.SSHClient()
+    c.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    print("connecting")
+    c.connect( hostname = sysinfo['ext_subnet']+str(student_num+3), username = "admin", pkey = k )
+    print("connected")
+    commands = ["configure","set mgt-config users admin password",fw_pw,fw_pw,"commit"]
+    for command in commands:
+        _stdin, _stdout,_stderr = c.exec_command(command)
+        print(_stdout.read().decode())
+        _stdin.close()
+
 
 my_student_num = 1
 
-build_firewall(my_student_num)
+#build_firewall(my_student_num)
+change_password(my_student_num)
