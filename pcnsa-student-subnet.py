@@ -77,10 +77,10 @@ def build_firewall(student_num):
     print("Interface attached to instance")
 
     modify_response = ec2_client.modify_network_interface_attribute(
-        Attachment={
-            'AttachmentId': attach_response['AttachmentId'],
-            'DeleteOnTermination': True
-        },
+        #Attachment={
+        #    'AttachmentId': attach_response['AttachmentId'],
+        #    'DeleteOnTermination': True
+        #},
         NetworkInterfaceId=interface_response['NetworkInterface']['NetworkInterfaceId'],
         SourceDestCheck={
             'Value': False
@@ -120,10 +120,10 @@ def build_firewall(student_num):
     print("Interface attached to instance")
 
     modify_response = ec2_client.modify_network_interface_attribute(
-        Attachment={
-            'AttachmentId': attach_response['AttachmentId'],
-            'DeleteOnTermination': True
-        },
+        #Attachment={
+        #    'AttachmentId': attach_response['AttachmentId'],
+        #    'DeleteOnTermination': True
+        #},
         NetworkInterfaceId=interface_response['NetworkInterface']['NetworkInterfaceId'],
         SourceDestCheck={
             'Value': False
@@ -133,6 +133,6 @@ def build_firewall(student_num):
     print("Source/destination check removed and delete on termination enabled")
 
 
-my_student_num = 5
+my_student_num = 6
 
 build_firewall(my_student_num)
