@@ -26,7 +26,7 @@ def build_firewall(student_num):
     instance_response = ec2_client.run_instances(
         LaunchTemplate={
             'LaunchTemplateName': sysinfo['template'],
-            'Version': '3'
+            'Version': '4'
             },
         MinCount = 1,
         MaxCount = 1,
@@ -127,6 +127,6 @@ def build_firewall(student_num):
     print("Source/destination check removed") #and delete on termination enabled")
 
 
-my_student_num = 4
+my_student_num = 1
 
 build_firewall(my_student_num)
