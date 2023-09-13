@@ -173,10 +173,34 @@ def build_windows(student_num):
         ]
     )
 
+def build_linux(student_num):
+    ec2_client = session.client('ec2')
+    instance_response = ec2_client.run_instances(
+        LaunchTemplate={
+            'LaunchTemplateName': "Student-Net-RHEL-NGINX",
+            'Version': '1'
+            },
+        MinCount = 1,
+        MaxCount = 1,
+        NetworkInterfaces=[
+            {
+                'SubnetId': student_subnets[str(student_num)],
+                'DeviceIndex': 0,
+                'PrivateIpAddresses': [
+                    {
+                        'Primary': True,
+                        'PrivateIpAddress': sysinfo['int_subnet']+str((student_num-1)*16+6)
+                    }
+                ]
+            }
+        ]
+    )
 
 my_student_num = 1
 
 #change_password(my_student_num)
 
-for i in range(2,17):
-    build_windows(i)
+build_linux(my_student_num)
+
+#for i in range(2,17):
+    #build_linux(i)
