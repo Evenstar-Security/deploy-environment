@@ -27,6 +27,9 @@ session = boto3.Session(
     region_name=sysinfo["region"]
 )
 
+def modify_routes(student_num, internal, external):
+
+
 def build_firewall(student_num):
     ec2_client = session.client('ec2')
     instance_response = ec2_client.run_instances(
@@ -96,7 +99,7 @@ def build_firewall(student_num):
     print("Source/destination check removed") #and delete on termination enabled")
 
     #Create and attach the internal interface
-    interface_response = ec2_client.create_network_interface(
+    interface_response_int = ec2_client.create_network_interface(
         Description='Student '+str(student_num)+' Private Interface',
         DryRun=False,
         Groups=[
@@ -114,7 +117,7 @@ def build_firewall(student_num):
         DeviceIndex=2,
         DryRun=False,
         InstanceId=instance_response['Instances'][0]['InstanceId'],
-        NetworkInterfaceId=interface_response['NetworkInterface']['NetworkInterfaceId']
+        NetworkInterfaceId=interface_response_int['NetworkInterface']['NetworkInterfaceId']
     )
 
     print("Internal data interface attached to instance")
@@ -124,7 +127,7 @@ def build_firewall(student_num):
         #    'AttachmentId': attach_response['AttachmentId'],
         #    'DeleteOnTermination': True
         #},
-        NetworkInterfaceId=interface_response['NetworkInterface']['NetworkInterfaceId'],
+        NetworkInterfaceId=interface_response_int['NetworkInterface']['NetworkInterfaceId'],
         SourceDestCheck={
             'Value': False
         }
@@ -174,7 +177,5 @@ my_student_num = 1
 
 #change_password(my_student_num)
 
-#for i in range(2,17):
-    #build_firewall(i)
-
-build_windows(my_student_num)
+for i in range(2,17):
+    build_windows(i)
