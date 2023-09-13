@@ -157,7 +157,7 @@ def build_windows(student_num):
         MaxCount = 1,
         NetworkInterfaces=[
             {
-                'SubnetId': sysinfo['int_subnet']+str((student_num-1)*16+4),
+                'SubnetId': student_subnets[str(student_num)],
                 'DeviceIndex': 0,
                 'PrivateIpAddresses': [
                     {
