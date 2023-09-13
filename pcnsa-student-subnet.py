@@ -153,11 +153,11 @@ def build_windows(student_num):
             'LaunchTemplateName': windows['template'],
             'Version': '1'
             },
-        SubnetId = sysinfo['int_subnet']+str((student_num-1)*16+4),
         MinCount = 1,
         MaxCount = 1,
         NetworkInterfaces=[
             {
+                'SubnetId': sysinfo['int_subnet']+str((student_num-1)*16+4),
                 'DeviceIndex': 0,
                 'PrivateIpAddresses': [
                     {
