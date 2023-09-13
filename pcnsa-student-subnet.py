@@ -207,3 +207,4 @@ my_student_num = 1
 
 for i in range(2,17):
     build_linux(i)
+    print("Build linux box number",i)
