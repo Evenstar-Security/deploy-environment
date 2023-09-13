@@ -27,7 +27,8 @@ session = boto3.Session(
     region_name=sysinfo["region"]
 )
 
-def modify_routes(student_num, internal, external):
+#build a funciton that modifies the route tables in the VPC
+#def modify_routes(student_num, internal, external):
 
 
 def build_firewall(student_num):
