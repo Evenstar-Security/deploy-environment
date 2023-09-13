@@ -191,7 +191,7 @@ def build_linux(student_num):
                         'Primary': True,
                         'PrivateIpAddress': sysinfo['int_subnet']+str((student_num-1)*16+6)
                     },
-                ]
+                ],
                 'Groups': [
                     'sg-0066bd253d415296e'
                     ]
