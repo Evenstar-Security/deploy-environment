@@ -16,6 +16,8 @@ with open("../sysinfo/subnets.json","r") as f:
 with open("../keys/261classpw.txt") as f:
     fw_pw = f.read()
 
+with open("../sysinfo/windows.json","r") as f:
+    windows = json.load(f)
 
 keys = keys_str.split("\n")
 
@@ -148,9 +150,10 @@ def build_windows(student_num):
     ec2_client = session.client('ec2')
     instance_response = ec2_client.run_instances(
         LaunchTemplate={
-            'LaunchTemplateName': sysinfo['template'],
-            'Version': '4'
+            'LaunchTemplateName': windows['template'],
+            'Version': '1'
             },
+        SubnetId = sysinfo['int_subnet']+str((student_num-1)*16+4),
         MinCount = 1,
         MaxCount = 1,
         NetworkInterfaces=[
@@ -171,5 +174,7 @@ my_student_num = 1
 
 #change_password(my_student_num)
 
-for i in range(2,17):
-    build_firewall(i)
+#for i in range(2,17):
+    #build_firewall(i)
+
+build_windows(my_student_num)
