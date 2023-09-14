@@ -203,8 +203,8 @@ my_student_num = 1
 
 #change_password(my_student_num)
 
-build_linux(my_student_num)
+#build_linux(my_student_num)
 
-#for i in range(2,17):
-    #build_linux(i)
-    #print("Build linux box number",i)
+for i in range(2,17):
+    build_linux(i)
+    print("Build linux box number",i)
