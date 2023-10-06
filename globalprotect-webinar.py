@@ -199,7 +199,7 @@ def build_linux(student_num):
         ]
     )
 
-my_student_num = 1
+my_student_num = 16
 
 build_firewall(1)
 
